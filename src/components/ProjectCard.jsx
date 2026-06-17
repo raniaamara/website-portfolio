@@ -1,8 +1,8 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { projectsData } from '../data/projectsData';
 import { FaRegArrowAltCircleLeft } from "react-icons/fa";
-import  { useEffect, useRef } from 'react';
-
+import  { useEffect } from 'react';
+import AnimatedSection from "./AnimatedSection";
 
 const ProjectCard = () => {
   const { projectId } = useParams();
@@ -21,7 +21,7 @@ const ProjectCard = () => {
         <FaRegArrowAltCircleLeft size={25} /> Back to Portfolio
       </Link>
 
-      <AnimatedSection>
+    
         {/* 1. Header & Overview */}
         <header className="case-header">
           <h1>{project.title}</h1>
@@ -29,10 +29,10 @@ const ProjectCard = () => {
           <div className="meta-grid">
             <span><strong>Role:</strong> {project.role}</span>
             <span><strong>Tools:</strong> {project.stack?.join(', ')}</span>
-            {project.duration && <span><strong>Duration:</strong> {project.duration}</span>}
+           
           </div>
         </header>
-      </AnimatedSection>
+
 
       {/* 2. The Challenge & Solution */}
       <AnimatedSection className="challenge-solution">
@@ -86,24 +86,3 @@ const ProjectCard = () => {
 };
 
 export default ProjectCard;
-const AnimatedSection = ({ children, className = "" }) => {
-  const ref = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible');
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    if (ref.current) observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, []);
-
-  return <div ref={ref} className={`fade-wrapper ${className}`}>{children}</div>;
-};

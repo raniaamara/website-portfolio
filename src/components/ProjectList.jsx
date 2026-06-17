@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react';
+import AnimatedSection from "./AnimatedSection";
 import '../App.css';
 import img1 from '../assets/osecours.svg'; 
 import img2 from '../assets/todo.svg';
@@ -12,40 +12,20 @@ const projects = [
 ];
 
 const ProjectList = () => {
-  const cardsRef = useRef([]);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-reveal');
-          } else {
-            // Optional: Remove if you want them to stay visible after first scroll
-            entry.target.classList.remove('animate-reveal');
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    cardsRef.current.forEach((card) => {
-      if (card) observer.observe(card);
-    });
-
-    return () => observer.disconnect();
-  }, []);
 
   return (
     <section id="projects" className="project-container">
       <h2 className="section-title">The Apps (Play Store Live)</h2>
       <div className="project-list">
-        {projects.map((proj, index) => (
-          <div 
-            key={index} 
-            className="project-card" 
-            ref={(el) => (cardsRef.current[index] = el)}
+        {projects.map((proj) => (
+        <AnimatedSection
+        key={proj.slug}
+        
+        className="project-card" 
+         
           >
+            
 <a href={proj.figmaLink} target="_blank" rel="noopener noreferrer" >
       <img src={proj.img} alt={proj.name}  className="project-img" />
     </a>
@@ -60,7 +40,7 @@ const ProjectList = () => {
                 View Case Study
               </Link>
             </div>
-          </div>
+          </AnimatedSection>
         ))}
       </div>
     </section>

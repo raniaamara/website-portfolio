@@ -1,4 +1,4 @@
-import  { useEffect, useRef } from 'react';
+import AnimatedSection from "./AnimatedSection";
 import { FaReact, FaGithub } from 'react-icons/fa';
 import { SiCapacitor, SiFirebase, SiSupabase, SiJavascript ,SiFigma} from 'react-icons/si';
 import { MdTerminal } from 'react-icons/md';
@@ -16,42 +16,27 @@ const techs = [
 ];
 
 const TechStack = () => {
-  const gridRef = useRef(null);
-
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add('animate-reveal');
-          } else {
-            // Remove class so it resets and can animate again on re-scroll
-            entry.target.classList.remove('animate-reveal');
-          }
-        });
-      },
-      { threshold: 0.2 }
-    );
-
-    if (gridRef.current) {
-      observer.observe(gridRef.current);
-    }
-    
-    return () => observer.disconnect();
-  }, []);
 
   return (
-    <section id="tech" className="tech-container">
-      <h2 className="section-title">My Tech Stack</h2>
-      <div className="tech-grid" ref={gridRef}>
-        {techs.map((tech, index) => (
-          <div key={index} className="tech-card">
-            <div className="tech-icon">{tech.icon}</div>
-            <p className="tech-name">{tech.name}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+<section id="tech" className="tech-container">
+  <h2 className="section-title">My Tech Stack</h2>
+
+  <div className="tech-grid">
+    {techs.map((tech, index) => (
+      <AnimatedSection
+        key={index}
+        className="tech-card"
+        
+      >
+        <div className="tech-icon">
+          {tech.icon}
+        </div>
+
+        <p>{tech.name}</p>
+      </AnimatedSection>
+    ))}
+  </div>
+</section>
   );
 };
 

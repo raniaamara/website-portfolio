@@ -20,7 +20,7 @@ export const projectsData = {
 uxProcess:
       { img: '/todo/todo.png', caption: "A comprehensive look at the Todo interface: from the clean task-input modal to the categorized list view and the contextual bottom-sheet detail view." },
  userFlow: {
-      diagram: "/todo/Todo userflow.png", // Use the diagram I generated for you
+      diagram: "/todo/Todo userflow.jpg", // Use the diagram I generated for you
       desc: "This flow emphasizes a minimal-click path from app launch to task completion."
     },
   },
@@ -53,7 +53,7 @@ uxProcess:
     uxProcess:
       { img: '/osecours/osecours.png', caption: "Dashboard overview showing the one-tap emergency call triggers, SOS activation sequence, and the fast accessible first aid library." },
  userFlow: {
-      diagram: "/osecours/Osecours userflow.png", // Use the diagram I generated for you
+      diagram: "/osecours/Osecours userflow.jpg", // Use the diagram I generated for you
       desc: "This flow emphasizes a minimal-click path from app launch to task completion."
     },
   },
@@ -87,7 +87,7 @@ uxProcess:
  uxProcess:
       { img: '/aura/aura.png', caption: "UI showcase demonstrating the goal-based onboarding flow, the personalized session home feed, and the visual progress tracking dashboard." },
  userFlow: {
-      diagram: "/aura/Aura userflow.png", // Use the diagram I generated for you
+      diagram: "/aura/Aura userflow.jpg", // Use the diagram I generated for you
       desc: "This flow emphasizes a minimal-click path from app launch to task completion."
     },
   },

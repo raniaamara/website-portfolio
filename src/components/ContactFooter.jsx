@@ -1,46 +1,69 @@
-import  { useEffect, useRef } from 'react';
 import { useForm, ValidationError } from '@formspree/react';
+import AnimatedSection from "./AnimatedSection";
 
 const ContactFooter = () => {
   const [state, handleSubmit] = useForm("xpqebnwq");
-  const footerRef = useRef(null);
 
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        // Toggle the 'visible' class based on intersection
-        if (entry.isIntersecting) {
-          entry.target.classList.add('visible');
-        } else {
-          entry.target.classList.remove('visible');
-        }
-      },
-      { threshold: 0.2 } // Trigger when 10% of the footer is visible
+  // If the form was submitted successfully, show a thank you message
+  if (state.succeeded) {
+    return (
+      <AnimatedSection>
+        <section id="contact" className="contact-footer">
+          <h2>Message sent!</h2>
+          <p>Thank you for reaching out. I'll get back to you soon.</p>
+        </section>
+      </AnimatedSection>
     );
-
-    if (footerRef.current) observer.observe(footerRef.current);
-    return () => observer.disconnect();
-  }, []);
+  }
 
   return (
-    <section ref={footerRef} id="contact" className="contact-footer fade-wrapper">
-      <h2>Contact me to sizzle your project !</h2>
-      <p>Feel free to contact me if having any questions.</p>
+    <AnimatedSection>
+      <section id="contact" className="contact-footer">
+        <h2>Contact me to sizzle your project !</h2>
+        <p>Feel free to contact me if having any questions.</p>
 
-      <form onSubmit={handleSubmit}>
-        <input type="text" name="name" placeholder="Name" required />
-        
-        <input id="email" type="email" name="email" placeholder="Email" required />
-        <ValidationError prefix="Email" field="email" errors={state.errors} />
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            required
+          />
 
-        <textarea id="message" name="message" placeholder="Work Description..." required />
-        <ValidationError prefix="Message" field="message" errors={state.errors} />
+          <input
+            id="email"
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+          />
+          <ValidationError
+            prefix="Email"
+            field="email"
+            errors={state.errors}
+          />
 
-        <button type="submit" disabled={state.submitting}>
-          {state.submitting ? 'Sending...' : 'Submit'}
-        </button>
-      </form>
-    </section>
+          <textarea
+            id="message"
+            name="message"
+            placeholder="Work Description..."
+            required
+          />
+          <ValidationError
+            prefix="Message"
+            field="message"
+            errors={state.errors}
+          />
+
+          <button
+            type="submit"
+            disabled={state.submitting}
+          >
+            {state.submitting ? "Sending..." : "Submit"}
+          </button>
+        </form>
+      </section>
+    </AnimatedSection>
   );
 };
 

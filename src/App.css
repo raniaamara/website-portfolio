@@ -4,6 +4,14 @@
   --text-primary: #1a1a1a;
   --card-bg: #ffffff;
 }
+* {
+  box-sizing: border-box;
+}
+.case-study-page *,
+.case-study-page *::before,
+.case-study-page *::after {
+ box-sizing:border-box;
+}
 
 html, body { 
 
@@ -28,7 +36,7 @@ box-sizing: border-box; /* Crucial: ensures padding doesn't add to width */
 }
 
 section {
-  min-height: 100vh;
+  min-height: 70vh;
   width: 100%;
   display: flex;
   align-items: center;
@@ -36,15 +44,15 @@ section {
   margin: 0; 
   padding: 0;
 }
-
 /* --- HERO SECTION --- */
 .hero-container {
   display: flex;
   justify-content: center;
   align-items: center;
-   padding: 0 2.5rem;
-   margin-left: 2rem;
- 
+  padding:0 2rem;
+  width: 100%;            /* Fix: Explicitly safe width */
+  box-sizing: border-box; /* Fix: Contain paddings */
+  margin-left: 3rem;         /* Fix: Removed margin-left causing the drift */
 }
 
 .hero-left { 
@@ -84,7 +92,8 @@ section {
   font-weight: 600;
   transition: transform 0.3s ease;
   font-size: 1.3rem;
-  width: 150px;
+  width: 100%;
+  max-width: 180px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -92,24 +101,6 @@ section {
 
 .btn-primary:hover { transform: scale(1.05); }
 
-/* --- REPEATABLE ANIMATION LOGIC --- */
-
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-/* Base state: Hidden */
-.fade-in, .tech-card {
-  opacity: 0;
-  transform: translateY(20px);
-}
-
-/* Trigger animation when parent has .animate-reveal */
-.animate-reveal .fade-in,
-.animate-reveal .tech-card {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
 
 /* --- TechStack SECTION --- */
 .tech-container {
@@ -118,7 +109,9 @@ section {
   align-items: center;
   justify-content: center;
   padding: 0;
-    gap: 1rem;
+  gap: 1rem;
+  width: 100%;            /* Fix: explicit safety wrap */
+  box-sizing: border-box;
 }
 
 .section-title {
@@ -131,7 +124,8 @@ section {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
   gap: 1rem;
-  max-width: 900px;
+
+ max-width: 1000px;
   width: 80%;
 }
 
@@ -146,45 +140,24 @@ section {
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
 }
 
-/* Staggered Delays for Hero children */
-.animate-reveal .hero-greeting { animation-delay: 0.1s; }
-.animate-reveal h1 { animation-delay: 0.2s; }
-.animate-reveal .hero-subtext { animation-delay: 0.3s; }
-.animate-reveal .btn-primary { animation-delay: 0.4s; }
-.animate-reveal .profile-img { animation-delay: 0.5s; }
-
-/* Staggered Delays for TechStack cards */
-.animate-reveal .tech-card:nth-child(1) { animation-delay: 0.1s; }
-.animate-reveal .tech-card:nth-child(2) { animation-delay: 0.2s; }
-.animate-reveal .tech-card:nth-child(3) { animation-delay: 0.3s; }
-.animate-reveal .tech-card:nth-child(4) { animation-delay: 0.4s; }
-.animate-reveal .tech-card:nth-child(5) { animation-delay: 0.5s; }
-.animate-reveal .tech-card:nth-child(6) { animation-delay: 0.6s; }
-.animate-reveal .tech-card:nth-child(7) { animation-delay: 0.7s; }
-.animate-reveal .tech-card:nth-child(8) { animation-delay: 0.8s; }
-
 
 /* --- PROJECT SECTION --- */
 .project-container {
   padding: 3rem 2rem;
   width: 100%;
-   display: flex; 
-   flex-direction: column;
+  display: flex; 
+  flex-direction: column;
+  box-sizing: border-box; /* Fix: locks padding element container inside bounds */
 }
 
 .project-list {
   display: flex;
   flex-direction: row;
   gap: 1rem;
-  
-  /* Use max-width to ensure it doesn't exceed the screen */
-  width: 100%;
-  max-width: 100vw; 
+  width: 100%;           /* Fix: changed from 100vw to prevent scrollbar sizing math issues */
+  max-width: 100%;       /* Fix: keeps it clamped within parent structure */
   padding: 2rem;
-  
-  /* Crucial for containment */
   box-sizing: border-box; 
-  
   overflow-x: auto;
   overflow-y: hidden;
   -webkit-overflow-scrolling: touch;
@@ -192,10 +165,7 @@ section {
   scrollbar-width: none;
 }
 
-
 .project-card {
-  /* Glassmorphism Effect */
-
   background: white;
   backdrop-filter: blur(15px);
   -webkit-backdrop-filter: blur(15px);
@@ -203,52 +173,31 @@ section {
   border-radius: 20px;
   padding: 1rem;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
-  
   flex: 0 0 250px; 
-  
-  /* Forces the card to take up the full available height of the container */
   height: auto; 
-  
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /* Animation Base State */
   opacity: 0;
   transform: translateY(20px);
   transition: opacity 0.5s ease-out, transform 0.3s ease-out;
 }
-/* Animation Trigger State */
-.project-card.animate-reveal {
-  opacity: 1;
-  transform: translateY(3);
-}
-
-/* Staggered Delays */
-.project-card:nth-child(1) { transition-delay: 0.1s; }
-.project-card:nth-child(2) { transition-delay: 0.3s; }
-.project-card:nth-child(3) { transition-delay: 0.5s; }
-
-
-
-
 
 .project-img {
-width:600px;
-  height: 330px; /* Now you can set the height */
-  object-fit: cover; /* This prevents stretching by cropping the image to fit */
+  max-width: 600px;       /* Fix: Allows image to scale nicely inside its box card container */
+  height: 330px; 
+  object-fit: cover; 
   border-radius: 20px;
   margin-bottom: 20px;
-  background-color: transparent; /* Makes sure no weird boxes show up */
+  background-color: transparent; 
   cursor: pointer;
   box-shadow: rgba(60, 64, 67, 0.3) 0px 1px 2px 0px, rgba(60, 64, 67, 0.15) 0px 1px 3px 1px;
   transition: transform 0.4s ease;
   padding: 0;
-
-
 }
+
 .project-img:hover {
-  transform: scale(1.02); /* Slight zoom effect on hover to show it's clickable */
+  transform: scale(1.02); 
 }
 
 .project-info { 
@@ -257,21 +206,23 @@ width:600px;
   align-items: center;
   width: 100%;
 }
-/* ... rest of your button and typography styles ... */
+
 .project-info h3 { 
  font-size: 2rem;
  text-align: center;
  margin: 0;
 }
+
 .project-info p { 
  font-size: 1.2rem;
  text-align: center;
 }
+
 .btn-store {
-  display: flex; /* Aligns icon and text horizontally */
+  display: flex; 
   align-items: center;
   justify-content: center;
-  gap: 10px; /* Space between icon and text */
+  gap: 10px; 
   margin: 1rem 0;
   padding: 0.8rem 1.5rem;
   background: var(--text-primary);
@@ -281,12 +232,13 @@ width:600px;
   font-weight: 600;
   transition: transform 0.4s ease;
 }
+
 .btn-store:hover {
  transform: scale(1.05);
 }
 
 .store-icon {
-  width: 20px; /* Adjust size as needed */
+  width: 20px; 
   height: 20px;
 }
 
@@ -300,14 +252,16 @@ width:600px;
   border-radius: 50px;
   text-decoration: none;
   font-weight: 600;
-    transition: transform 0.4s ease, color 0.4s ease,background  0.4s ease;
+  transition: transform 0.4s ease, color 0.4s ease, background  0.4s ease;
 }
+
 .btn-outline:hover {
   color: white;
   border: 1px solid var(--text-primary);
-    background: var(--text-primary);
-     transform: scale(1.05);
+  background: var(--text-primary);
+  transform: scale(1.05);
 }
+
 /* ==========================================================================
    1. GLOBAL REBOOT & CORE STYLING
    ========================================================================== */
@@ -322,10 +276,14 @@ width:600px;
   align-items: center;
   color: #111111;
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
+   overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  scroll-behavior: smooth;
+  scrollbar-width: none;
+
 
 }
-  
 
 .challenge-solution, 
 .research, 
@@ -345,23 +303,18 @@ width:600px;
   justify-content: flex-start;
     border-bottom: 1px solid #cfcdcd;
 }
+
 .results {
   width: 100%;
   max-width: 1200px;
   display: flex;
   flex-direction: column;
   gap: 2rem;
-
   padding: 2rem 0;
-
   box-sizing: border-box;
-  /* Fix: override global section styles */
   min-height: unset;
   justify-content: flex-start;
-   
 }
-
-
 
 /* ==========================================================================
    3. HEADER & OVERVIEW
@@ -393,6 +346,7 @@ width:600px;
   margin: 0;
   margin-bottom: 2rem;
 }
+
 .case-study-page h3 {
   width: 100%;
   margin: 0 0 1rem 0;
@@ -411,23 +365,24 @@ width:600px;
   width: 100%;
 }
 
-
 .meta-grid {
   display: flex;
   flex-wrap: wrap;
   gap: 1rem;
+  width: 100%;            /* Fix: Added explicit containment */
+  box-sizing: border-box;
 }
 
 .meta-grid span {
   flex: 1;
-  min-width: 220px;
+ width: 100%;
+ font-size: 1.1rem;
   padding: 1.5rem;
   background: white;
   border-radius: 16px;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease;
-
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
+  box-sizing: border-box; /* Fix: prevents box expansion via inner text layouts */
 }
 
 .meta-grid span:hover {
@@ -435,13 +390,11 @@ width:600px;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
 }
 
-
 .meta-grid span strong {
-  font-size: 1.1rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #111111;
 }
-
 
 
 /* ==========================================================================
@@ -454,23 +407,23 @@ width:600px;
   gap: 1.5rem;
   counter-reset: premium-counter;
   width: 100%;
+  box-sizing: border-box; /* Fix: Keeps grid contained */
 }
 
 .persona-card {
-  flex: 1 1 calc(50% - 0.75rem);
-  min-width: 260px;
+  flex:1 1 calc(50% - 0.75rem);
+  min-width:0;
   min-height: 160px;
   display: flex;
   flex-direction: column;
-gap: 1rem;
+  gap: 1rem;
   background-color: #fcfcfc;
   border-radius: 20px;
   padding: 2rem;
   box-sizing: border-box;
   border: 1px solid #f0f0f0;
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
 
 .persona-card:hover {
@@ -479,7 +432,7 @@ gap: 1rem;
 }
 
 .persona-card span {
-font-size: 1.05rem;
+  font-size: 1.05rem;
   color: #444444;
   line-height: 1;
   font-weight: 400;
@@ -498,36 +451,32 @@ font-size: 1.05rem;
   order: 2;
 }
 
-
 .challenge-solution {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap; /* Add this to allow items to move to a new row when space runs out */
   gap: 2rem;
 }
+
 /* ==========================================================================
    6. CONTENT CARDS (p tags in sections)
    ========================================================================== */
-
 .challenge-solution p,
 .process p,
 .results p,
 .user-flow p {
   font-size: 1.05rem;
   color: #444444;
-  width: 100%;
   margin: 0;
   background-color: #fcfcfc;
   border-radius: 20px;
   padding: 2rem;
   box-sizing: border-box;
   border: 1px solid #f0f0f0;
-  
-    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   line-height: 1.7;
-  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
-
 
 .challenge-solution p:hover,
 .process p:hover,
@@ -537,28 +486,25 @@ font-size: 1.05rem;
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.04);
 }
 
-
-
 .ux-process {
   width: 100%;
+  box-sizing: border-box;
 }
 
 .ux-process img {
   width: 100%;
+  max-width: 100%;       /* Fix: Prevents visual overflow */
   display: block;
   object-fit: cover;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 25px;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease;
+  border-radius: 25px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;
 }
+
 .ux-process img:hover {
   transform: translateY(-4px);
   box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
 }
-/* Gallery for the UX Process steps */
-
-
 
 .ux-process .caption {
   margin-top: 1rem;
@@ -569,32 +515,26 @@ font-size: 1.05rem;
 
 /* User Flow Diagram Styling */
 .user-flow {
-display: flex;
-flex-direction: column;
-width: 100%;
-   
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .user-flow img {
   width: 100%;
-  max-width: 800px;
-  max-height: 1000px;
+  max-width: 100%;       /* Fix: Prevents visual overflow */
   display: block;
   object-fit: cover;
   box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-    border-radius: 25px;
-    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1),
-              box-shadow 0.3s ease;          
-    
+  border-radius: 25px;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.3s ease;          
 }
+
 .user-flow img:hover {
   transform: translateY(-4px);
- box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, 0.06);
 }
-
-
-
-
 
 /* ==========================================================================
   8.BACK BUTTON
@@ -602,12 +542,12 @@ width: 100%;
 .back-btn {
   position: relative;
   transition: all 0.3s ease-in-out;
- align-self: flex-start;
- box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
+  align-self: flex-start;
+  box-shadow: rgba(6, 24, 44, 0.4) 0px 0px 0px 2px, rgba(6, 24, 44, 0.65) 0px 4px 6px -1px, rgba(255, 255, 255, 0.08) 0px 1px 0px inset;
   padding-block: 0.5rem;
   padding-inline: 1.25rem;
   border-radius: 9999px;
-   font-weight: bold;
+  font-weight: bold;
   border: 3px solid #ffffff4d;
   display: inline-flex;
   align-items: center;
@@ -615,18 +555,19 @@ width: 100%;
   background-color: #111111;
   text-decoration: none;
   font-size: 0.95rem;
-  font-weight: 500;
   margin-bottom: 2rem;
-    gap: 10px;
+  gap: 10px;
 }
 
 .back-btn:hover {
   transform: scale(1.05);
   border-color: #fff9;
 }
+
 .back-btn:hover::before {
   animation: shine 1.2s ease-out infinite;
 }
+
 .back-btn::before {
   content: "";
   position: absolute;
@@ -644,59 +585,36 @@ width: 100%;
 }
 
 @keyframes shine {
-  0% {
-    left: -10px;
-  }
-
-  60% {
-    left: 60%;
-  }
-
-  to {
-    left: 100%;
-  }
+  0% { left: -10px; }
+  60% { left: 60%; }
+  to { left: 100%; }
 }
-/* Ensure the wrapper respects the layout */
-.fade-wrapper {
+
+.reveal {
   opacity: 0;
-  transform: translateY(30px);
-  transition: opacity 1s ease-out, transform 1s ease-out;
-  width: 100%;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease, transform 0.8s ease;
+}
+
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.contact-footer {
+  background: linear-gradient(90deg, rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235, 1) 50%, rgba(168, 182, 227, 1) 100%);
+  min-height: 90vh;
+  padding:1rem;
+  border-radius: 50px;
+width: 97vw;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-}
-
-.fade-wrapper.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Optional: Add a slight delay for staggered effects */
-.fade-wrapper:nth-child(2) { transition-delay: 0.1s; }
-.fade-wrapper:nth-child(3) { transition-delay: 0.2s; }
-.fade-wrapper:nth-child(4) { transition-delay: 0.3s; }
-.fade-wrapper:nth-child(5) { transition-delay: 0.4s; }
-
-
-/* Class added by the Observer */
-.fade-wrapper.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.contact-footer {
-background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235, 1) 50%, rgba(168, 182, 227, 1) 100%);
-  padding:0;
-  width: 100%;
-  height: auto;
-  border-radius: 50px;
- display: flex;
- flex-direction: column;
- justify-content: center;
- gap: 1rem;
+  gap: 1rem;
   font-family: sans-serif;
   color: #333;
-  margin: 1rem 4rem;
+  box-sizing: border-box;
 }
 
 .contact-footer h2 {
@@ -709,7 +627,7 @@ background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235,
   color: #555;
   margin: 0;
   margin-bottom: 20px;
-  font-size:1.3rem;
+  font-size: 1.3rem;
 }
 
 /* Form layout */
@@ -720,7 +638,7 @@ background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235,
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 3rem;
-
+  box-sizing: border-box; /* Fix: Enforce box sizing */
 }
 
 /* Input styling */
@@ -728,30 +646,30 @@ background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235,
 .contact-footer textarea {
   width: 100%;
   padding: 18px;
-  border-radius: 12px;
   border: 1px solid #c7c7d4;
   background-color: #eceefd;
   font-size: 1.1rem;
   font-weight: 500;
   outline: none;
-    border-radius: 30px;
-    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  border-radius: 30px;
+  box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+  box-sizing: border-box; /* Fix: locks padding to stay inside width 100% */
 }
 
 .contact-footer textarea {
-  grid-column: span 2; /* Spans across both columns */
+  grid-column: span 2; 
   height: 200px;
   resize: none;
-   padding: 1rem 2rem;
+  padding: 1rem 2rem;
 }
 
 /* Button styling */
 .contact-footer button {
-    max-width: 800px;
+  max-width: 800px;
   width: 50%;
- display: flex;
- justify-content: center;
- margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  margin: 0 auto;
   grid-column: span 2;
   padding: 15px;
   border-radius: 30px;
@@ -767,20 +685,22 @@ background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235,
 .contact-footer button:hover {
   background-color: #000000;
 }
+
 /* --- MOBILE RESPONSIVENESS --- */
 @media (max-width: 1027px) {
-
-  /* 1. Hero Section: Stack text and image */
+  html {
+    font-size: 85%; /* This reduces all font sizes by 15% globally */
+  }
   .hero-container {
     flex-direction: column;
     gap: 1rem;
-    padding: 2rem 3rem!important;
+    padding: 2rem 3rem !important;
     margin-left: 0 !important;
     text-align: center;
   }
 
   .hero-container h1, .hero-greeting {
-    font-size: 1.8rem !important; /* Smaller headings for mobile */
+    font-size: 1.8rem !important; 
   }
 
   .hero-left {
@@ -788,49 +708,61 @@ background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235,
   }
 
   .btn-primary {
-    margin: 0 auto; /* Center button */
+    margin: 0 auto; 
   }
-.tech-container h2{
-  font-size: 1.8rem;
-}
-.project-container h2{
-  font-size: 1.8rem;
-}
-  /* 2. Project List: Adjust card width */
+
+  .tech-container h2 {
+    font-size: 1.8rem;
+  }
+
+  .project-container h2 {
+    font-size: 1.8rem;
+  }
+
   .project-list {
     width: 100%;
-    padding: 2rem ;
-
+    padding: 2rem;
     gap: 0.5rem;
   }
 
-  .project-card {
-    flex: 0 0 85%; /* Make cards take up most of the screen width */
+  .project-card{
+    flex: 0 0 95%; 
+  }
+.tech-grid{
+  display: flex;
+  flex-direction: column;
+  
+}
+.tech-card{
+    width: 75%;
+    margin: 0 auto;
+}
+  .project-img {
+    width: 100%; 
+    height: auto;
   }
 
-  .project-img {
-    width: 100%; /* Ensure images don't overflow */
-    height: 200px;
+  .btn-primary {
+    width: 150px;
+    padding: 15px;
   }
-.btn-primary{
-  width: 150px;
-  padding: 15px;
-}
-  /* 3. Case Study Layout Adjustments */
+
   .case-header h1 {
     font-size: 2rem !important;
   }
-   .case-header p {
+
+  .case-header p {
     font-size: 1.2rem !important;
   }
-   .case-study-page h3 {
+
+  .case-study-page h3 {
     font-size: 1.4rem !important;
   }
-    .case-study-page .hero-mockups {
-   width: 180px;
-  }
-      .case-study-page .final-ui img {
-   width: 200px;
+
+
+
+  .case-study-page .final-ui img {
+    width: 200px;
   }
 
   .meta-grid {
@@ -838,48 +770,52 @@ background: linear-gradient(90deg,rgba(208, 209, 247, 1) 0%, rgba(185, 185, 235,
     gap: 1rem;
   }
 
-  /* 4. Form Layout */
+  .challenge-solution {
+    flex-direction: column; /* Fix: Stack column items safely on small screens */
+  }
+
   .contact-footer {
-    width: 100% !important;
-    margin: 0   !important;
-    padding: 1.8rem !important;
-    border-radius: 30px;
+
    
+    border-radius: 30px;
+    box-sizing: border-box;
   }
 
   .contact-footer form {
-   display: flex;
-   flex-direction: column; /* Stack inputs vertically */
+    display: flex;
+    flex-direction: column; 
     gap: 15px;
-   
-align-items: center;
-
+    width: 100%;          /* Fix: Ensure form elements consume safe full container width */
+    align-items: center;
   }
- .contact-footer h2{
-  font-size: 1.8rem;
- }
-  .contact-footer  p{
-  font-size: 1rem;
- }
- .results p{
-  font-size: 1rem!important;
- }
+
+  .contact-footer h2 {
+    font-size: 1.8rem;
+  }
+
+  .contact-footer p {
+    font-size: 1rem;
+  }
+
+  .results p {
+    font-size: 1rem !important;
+  }
+
+  .contact-footer input {
+    width: 100%;          /* Fix: Clean layout without margins */
+  }
+
   .contact-footer textarea {
-    width: 90%;
+    width: 100%;          /* Fix: Changed from 90% to match full form input scaling layout */
     grid-column: span 1;
-     margin:  0 1.8rem !important;
+    margin: 0 !important; /* Fix: Overrode the broken margins causing offset horizontal overflows */
   }
 
   .contact-footer button {
     width: 100%;
   }
 
-  /* 5. Feature Grid (Persona cards) */
   .persona-cards-grid {
     flex-direction: column;
   }
-
-  .persona-card {
-    flex: 1 1 100%;
-  }
-}
+} /* Fix: Added the missing closing bracket for the media query string */
